@@ -13,19 +13,23 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    public List<User> getFriends(){
+    public List<User> getUsers(){
         return repository.findAll();
     }
 
-    public void  addFriend(User user){
+    public void  addUser(User user){
         repository.save(user);
     }
 
-    public void updateFriend(User user){
+    public void updateUser(User user){
         repository.save(user);
     }
 
-    public void deleteFriend(Integer id){
+    public void deleteUser(Integer id){
         repository.deleteById(id);
+    }
+
+    public User fetchUserByEmailAndPassword(String email, String password){
+        return repository.findByEmailAndPassword(email,password);
     }
 }

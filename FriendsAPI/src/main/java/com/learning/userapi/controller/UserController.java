@@ -16,23 +16,39 @@ public class UserController {
     private UserService service;
 
     @GetMapping("/users")
-    public List<User> getFriends(){
-       return service.getFriends();
+    public List<User> getUsers(){
+       return service.getUsers();
     }
 
     @PostMapping("/users/addnew")
-    public void addFriend(@RequestBody User user){
-        service.addFriend(user);
+    public void addUser(@RequestBody User user){
+        service.addUser(user);
     }
 
     @PutMapping("/users/{id}/edit")
-    public void updateFriend(@PathVariable("id") Integer id, @RequestBody User user){
-        service.updateFriend(user);
+    public void updateUser(@PathVariable("id") Integer id, @RequestBody User user){
+        service.updateUser(user);
     }
 
     @DeleteMapping("/users/{id}/delete")
-    public void deleteFriend(@PathVariable("id") Integer id){
-        service.deleteFriend(id);
+    public void deleteUser(@PathVariable("id") Integer id){
+        service.deleteUser(id);
+    }
+
+    @PostMapping("/login")
+    public User loginUser(@RequestBody User user) throws Exception {
+        String email = user.getEmail();
+        String password = user.getPassword();
+        User userForEmailAndPassword = null;
+
+        if(email != null && password != null){
+            userForEmailAndPassword = service.fetchUserByEmailAndPassword(email,password);
+        }
+        if(userForEmailAndPassword == null){
+            throw new Exception("bad credential");
+        }
+
+        return userForEmailAndPassword;
     }
 
 }
